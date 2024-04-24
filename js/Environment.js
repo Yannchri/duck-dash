@@ -78,7 +78,6 @@ export class Grass extends Environment {
     ctx.fillStyle = detailColor;
     for (let y = distanceFromTop; y < distanceFromTop + this.height; y += 4) { // Espacement vertical des détails
       for (let x = 0; x < width; x += 4) { // Espacement horizontal des détails
-        // Ajout aléatoire de détails pour un effet naturel
           ctx.fillRect(x, y, 2, 2); // Taille des détails en pixels
         
       }
