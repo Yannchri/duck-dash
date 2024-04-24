@@ -1,3 +1,5 @@
+import { Grass, Road, River } from './Environment.js';
+
 // Définition de la classe GameElement
 class GameElement {
     constructor(color, height) {
@@ -13,25 +15,25 @@ class GameElement {
 }
 
 // Définition de la classe Grass
-class Grass extends GameElement {
-    constructor() {
-        super('green', 40);
-    }
-}
+// class Grass extends GameElement {
+//     constructor() {
+//         super('green', 40);
+//     }
+// }
 
 // Définition de la classe Road
-class Road extends GameElement {
-    constructor() {
-        super('gray', 40);
-    }
-}
+// class Road extends GameElement {
+//     constructor() {
+//         super('gray', 40);
+//     }
+// }
 
-// Définition de la classe River
-class River extends GameElement {
-    constructor() {
-        super('blue', 40);
-    }
-}
+// // Définition de la classe River
+// class River extends GameElement {
+//     constructor() {
+//         super('blue', 40);
+//     }
+// }
 
 // Définir la fonction pour générer un élément aléatoire
 export function generateRandomElement() {
