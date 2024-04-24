@@ -57,6 +57,20 @@ export class River extends Environment {
     super("river", height, width, "blue");  // Base color for the river
   }
 
+  draw(ctx, width, distanceFromTop){
+    const riverColor = "#204bb0";
+    const detailRiverColor = "#0400d9";
+
+    ctx.fillStyle = riverColor;
+    ctx.fillRect(0, distanceFromTop, width, this.height);
+
+    ctx.fillStyle = detailRiverColor;
+    for (let y = distanceFromTop; y < distanceFromTop + this.height; y+=6) {
+      for (let x = 0;  x < width; x+=18) {
+        ctx.fillRect(x,y, 2, 2);
+  }
+    }
+  }
   
   setDirection() {}
 
@@ -64,7 +78,7 @@ export class River extends Environment {
 
 export class Grass extends Environment {
   constructor() {
-    super("grass", height, width, "green"); // Pas nécessaire de passer 'draw' ici.
+    super("grass", height, width, "green"); 
   }
 
   draw(ctx, width, distanceFromTop) {
