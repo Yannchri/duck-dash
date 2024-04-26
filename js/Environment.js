@@ -110,7 +110,7 @@ export class River extends Environment {
   updateObstacle() {
     this.obstacle.update(this.width);
   }
-  //If the duck goes forward, we need to updateall the canva to move the element on Y
+  //If the duck goes forward, we need to update all the canva to move the obstacle on posY
   updateObstaclePosition(height){
     this.obstacle.posY = height;
   }

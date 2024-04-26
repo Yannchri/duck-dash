@@ -92,7 +92,7 @@ function update() {
     let currentTime = Date.now();
 
      // limit to 0,3 second betweeen each jump
-    if (currentTime - lastJumpTime > 300) {
+    if (currentTime - lastJumpTime > 200) {
         if (keys['ArrowLeft']) {
             duckX -= jumpDistance;
             lastJumpTime = currentTime; 
@@ -115,37 +115,6 @@ function update() {
     limitDuckMovement();
 }
 
-//generate woodLogs (unused for the moment)
-//The concept is :
-//the wood has 20 pixel of height and 10 pixel of distance between each to not have the impression that every wood are stuck together
-// we have 40 pixels of height between each wood to be ok with the test for the duck
-//Store all the position 
-let woodLogs = [
-    { x: 200, y: 490, width: 80, height: 20 },
-    { x: 240, y: 450, width: 120, height: 20 },
-    { x: 280, y: 410, width: 80, height: 20 },
-];
-
-//Speed of wood
-let logSpeed = 2;
-//Unused for the moment
-function drawWoodLogs(){
-    ctx.fillStyle = 'brown';
-    for(let i=0; i<woodLogs.length;i++){
-        ctx.fillRect(woodLogs[i].x,woodLogs[i].y,woodLogs[i].width,woodLogs[i].height)
-    }
-}
-
-function updateWoodLogs() {
-    for (let i = 0; i < woodLogs.length; i++) {
-        let log = woodLogs[i];
-        log.x -= logSpeed; //Move the wood on left
-        // reste if go out of the canvas
-        if (log.x< 0) {
-            log.x = canvas.width;
-        }
-    }
-}
 
 //unused for the moment
 function checkRiverCollision() {

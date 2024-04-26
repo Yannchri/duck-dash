@@ -86,8 +86,10 @@ export function modifyEnvironment(elements) {
     // Modify all the element
     for (let i = elements.length - 1; i > 0; i--) {
         elements[i] = elements[i - 1];
+        //Based on the height of environment of 40
+        // Wait how we do the size and adapt dynamically
         if (elements[i] instanceof River){
-            elements[i].updateObstaclePosition(elements[i].distanceFromTop + 50);
+            elements[i].updateObstaclePosition(elements[i].distanceFromTop+50);
         }
     }
     // Repalce the first element
