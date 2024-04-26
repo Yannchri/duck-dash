@@ -1,3 +1,5 @@
+import {Wood, Three, Car} from './Obstacles.js'
+
 const height = 40;
 const width = 600;
 
@@ -8,12 +10,18 @@ export class Environment {
   width;
   random;
   color;
+  distanceFromTop;
 
   constructor(type, height, width, color) {
     this.type = type;
     this.height = height;
     this.width = width;
     this.color = color;
+  }
+
+  
+  setDistanceFromTop(distanceFromTop){
+    this.distanceFromTop = distanceFromTop;
   }
   
   draw(ctx,width,distanceFromTop) {
@@ -51,10 +59,30 @@ export class Road extends Environment {
 } 
   
 
+/*Constructeur de la rivière
+-Besoin de distanceFromTop dans le constructeur pour adapter les obstacles quand tu déplaces l'environnement
 
+*/
 export class River extends Environment {
-  constructor() {
+  constructor(distanceFromTop) {
     super("river", height, width, "blue");  // Base color for the river
+    this.distanceFromTop = distanceFromTop;
+    this.generateWood(); // Appel de la méthode pour générer le bois
+
+  }
+
+  /*Méthode pour générer le bois
+  - The height and width, will be used for the collision
+  - Woodx = Horizontal start position
+  - this.distanceFromTop --> to initialize at the same level of the river + 10 because we want the wood in the middle of the river 
+  */
+  generateWood() {
+    const woodHeight = 20;
+    const woodWidth = 10;
+    const woodX = Math.random() * 600;
+    const speed = Math.random() * 5;
+    const direction = Math.random() < 0.5 ? "left" : "right"; // Direction aléatoire: gauche ou droite
+    this.obstacle = new Wood(woodHeight, woodWidth, './images/woodLoogs.png',woodX,this.distanceFromTop + 10,speed,direction); // Création d'un nouvel obstacle en bois
   }
 
   draw(ctx, width, distanceFromTop){
@@ -70,8 +98,17 @@ export class River extends Environment {
         ctx.fillRect(x,y, 2, 2);
   }
     }
+    ctx.drawImage(this.obstacle.img, this.obstacle.posX, this.obstacle.posY);
   }
-  
+
+  //Modify on each loop the X position on a obstacle, called in gameElement
+  updateObstacle() {
+    this.obstacle.update(this.width);
+  }
+  //If the duck goes forward, we need to updateall the canva to move the element on Y
+  updateObstaclePosition(height){
+    this.obstacle.posY = height;
+  }
   setDirection() {}
 
 }

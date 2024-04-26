@@ -1,4 +1,4 @@
-import { generateTableOfEnvironment, drawEnvironment, modifyEnvironment } from './gameElement.js';
+import { generateTableOfEnvironment, drawEnvironment, modifyEnvironment, updateEnvironment } from './gameElement.js';
 /*
 Prototype V1, the duck do 40/40px and all the configuration is based on this value
 Idea : We can split the canva in X part and each part is randomly choosed between road / grass / river
@@ -181,6 +181,7 @@ function drawAllElement(){
     // Order is important or the canard will be behind the water for example. 
     
     drawEnvironment(elements, ctx, canvas.width);
+    updateEnvironment(elements);
     drawLines();
     //drawRiver();
     //drawWoodLogs();
@@ -190,6 +191,7 @@ function drawAllElement(){
 function gameLoop() {
     update();
     drawAllElement();
+    
     //checkRiverCollision();
     //updateWoodLogs();
     requestAnimationFrame(gameLoop); 
