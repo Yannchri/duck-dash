@@ -72,17 +72,21 @@ export class River extends Environment {
   }
 
   /*Méthode pour générer le bois
-  - The height and width, will be used for the collision
+  - The height of the obstacle is half the height of the environement
+  - distanceFromTopEnvironement --> The distance from the top of the canva + half the height of the obstacle to be in the middle of the river
   - Woodx = Horizontal start position
-  - this.distanceFromTop --> to initialize at the same level of the river + 10 because we want the wood in the middle of the river 
+  - this.distanceFromTop --> to initialize at the same level of the river
   */
   generateWood() {
-    const woodHeight = 20;
-    const woodWidth = 10;
+    const woodHeight = this.height/2;
+    //Just for testing to obtain 20, 30 , 40 ,50
+    const woodWidth = Math.floor(Math.random() * 4) * 10 + 20;
+    const distanceFromTopEnvironement = this.distanceFromTop + (woodHeight /2);
     const woodX = Math.random() * 600;
     const speed = Math.random() * 5;
     const direction = Math.random() < 0.5 ? "left" : "right"; // Direction aléatoire: gauche ou droite
-    this.obstacle = new Wood(woodHeight, woodWidth, './images/woodLoogs.png',woodX,this.distanceFromTop + 10,speed,direction); // Création d'un nouvel obstacle en bois
+    this.obstacle = new Wood(woodHeight, woodWidth, './images/woodLoogs.png',woodX,distanceFromTopEnvironement,speed,direction);
+    
   }
 
   draw(ctx, width, distanceFromTop){
@@ -98,6 +102,7 @@ export class River extends Environment {
         ctx.fillRect(x,y, 2, 2);
   }
     }
+  
     ctx.drawImage(this.obstacle.img, this.obstacle.posX, this.obstacle.posY);
   }
 

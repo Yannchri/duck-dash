@@ -15,11 +15,17 @@ export class Obstaclce {
     this.height = height;
     this.width = width;
     this.img = new Image();
-    this.img.src = imgPath;
     this.posX = posX;
     this.posY = posY;
     this.speed = speed;
     this.direction = direction;
+    // CALLBACK
+    // When the picture is charged, ii call the second function.
+    this.img.onload = () => {
+      // Redimensionner l'image après son chargement
+      this.img = this.resizeImage(this.img, this.width, this.height);
+    };
+    this.img.src = imgPath;
   }
 
 
@@ -37,6 +43,22 @@ export class Obstaclce {
       }
     }
   }
+
+  // Fonction pour redimensionner une image
+  resizeImage(image, newWidth, newHeight) {
+  // create temporary canva
+  var canvas = document.createElement('canvas');
+  canvas.width = newWidth;
+  canvas.height = newHeight;
+  var ctx = canvas.getContext('2d');
+  // Dessine the picture redimensioned
+  ctx.drawImage(image, 0, 0, newWidth, newHeight);
+  // Create the new image
+  var resizedImage = new Image();
+  resizedImage.src = canvas.toDataURL('./images/woodLoogs.png');
+  return resizedImage;
+}
+
 }
 
 export class Wood extends Obstaclce {
