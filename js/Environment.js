@@ -132,14 +132,12 @@ export class Grass extends Environment {
   generateTrees() {
     const numberOfTrees = Math.floor(Math.random() * 5) + 0; // entre 1 et 10 arbres
     for (let i = 0; i < numberOfTrees; i++) {
-      const treeHeight = 30; // hauteur fixe pour les arbres
-      const treeWidth = 25; // largeur fixe pour les arbres
-      const posX = Math.random() * (this.width - treeWidth); // Position X aléatoire
+      const treeHeight = 40; // hauteur fixe pour les arbres
+      const treeWidth = 40; // largeur fixe pour les arbres
+      const posX = Math.floor(Math.random() * ((this.width - treeWidth) / 40)) * 40; // Position X aléatoire
       const posY = this.distanceFromTop + Math.random() * (this.height - treeHeight); // Position Y aléatoire
       this.trees.push(new Tree(treeHeight, treeWidth, './images/tree.png', posX, posY));
-      console.log("Width and Height of Grass:", this.width, this.height);
-
-    }
+      }
   }
 
 
@@ -152,7 +150,6 @@ export class Grass extends Environment {
     // Dessiner les arbres
     this.trees.forEach(tree => {
       ctx.drawImage(tree.img, tree.posX, tree.posY); // Assurez-vous que draw est défini dans Tree
-      console.log("Tree Width and Height:", tree.posX, tree.posY);
     });
   }
   
