@@ -1,5 +1,6 @@
 import { Duck } from "./Duck.js";
 import { Grass, Road, River } from "./Environment.js";
+import { drawScore, storedScore } from "./score.js";
 
 // Canvas creation
 let canvas = document.getElementById("canvas");
@@ -45,6 +46,7 @@ function draw() {
     moveEnvironment(1);
     drawEnvironment();
     duck.draw(ctx);
+    drawScore(ctx, duck);
     checkCollision();
   }
 }

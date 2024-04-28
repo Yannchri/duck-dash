@@ -76,3 +76,5 @@ export class Tree extends Obstacles {
     super("tree", height, width, imgPath, posX, posY);
   }
 }
+
+

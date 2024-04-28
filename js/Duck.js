@@ -6,6 +6,7 @@ export class Duck {
   duckImage;
   lastJumpTime;
   jumpDistance;
+  _score;
 
   constructor(duckSize, duckImage, jumpDistance) {
     this.duckSize = duckSize;
@@ -16,6 +17,7 @@ export class Duck {
     this.duckY = canvas.height - this.duckSize - 120;
     this.lastJumpTime = 0;
     this.jumpDistance = jumpDistance;
+    this._score = 0;
   }
 
   draw(ctx) {
@@ -49,10 +51,12 @@ export class Duck {
       if (keys["ArrowUp"]) {
         this.duckY -= this.jumpDistance;
         this.lastJumpTime = currentTime;
+        this._score += 1;
       }
       if (keys["ArrowDown"]) {
         this.duckY += this.jumpDistance;
         this.lastJumpTime = currentTime;
+        this._score -= 1;
       }
     }
     //Verify the movement
@@ -66,4 +70,10 @@ export class Duck {
       this.duckX += wood.speed;
     }
   }
+
+  getScore() {
+    return this._score;  // Getter pour le score
+  }
+
+  
 }
