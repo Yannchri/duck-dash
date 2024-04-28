@@ -96,7 +96,6 @@ function update() {
         if (keys['ArrowLeft']) {
             duckX -= jumpDistance;
             lastJumpTime = currentTime; 
-            console.log(duckY + " - " + duckX);
         }
         if (keys['ArrowRight']) {
             duckX += jumpDistance;
