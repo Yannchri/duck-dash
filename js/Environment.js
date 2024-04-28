@@ -1,4 +1,4 @@
-import {Wood, Three, Car} from './Obstacles.js'
+import {Wood, Tree, Car} from './Obstacles.js'
 
 const height = 40;
 const width = 600;
@@ -32,6 +32,7 @@ export class Environment {
 
   setDifficulty(level) {}
 }
+
 
 export class Road extends Environment {
   constructor() {
@@ -104,6 +105,7 @@ export class River extends Environment {
     }
   
     ctx.drawImage(this.obstacle.img, this.obstacle.posX, this.obstacle.posY);
+    
   }
 
   //Modify on each loop the X position on a obstacle, called in gameElement
@@ -119,24 +121,47 @@ export class River extends Environment {
 }
 
 export class Grass extends Environment {
-  constructor() {
-    super("grass", height, width, "green"); 
+  constructor(distanceFromTop) {
+    super('grass', height, width, 'green');
+    this.distanceFromTop = distanceFromTop;
+    this.trees = []; // Initialise le tableau d'arbres
+    this.generateTrees();
   }
 
-  draw(ctx, width, distanceFromTop) {
-    // Utilisation d'un motif pour créer un effet d'herbe
-    const grassColor = "#00AA00"; // Couleur de base de l'herbe
-    const detailColor = "#007700"; // Couleur pour les détails de l'herbe
-    ctx.fillStyle = grassColor;
-    ctx.fillRect(0, distanceFromTop, width, this.height);
+  // Générer un nombre aléatoire d'arbres avec des positions aléatoires
+  generateTrees() {
+    const numberOfTrees = Math.floor(Math.random() * 5) + 0; // entre 1 et 10 arbres
+    for (let i = 0; i < numberOfTrees; i++) {
+      const treeHeight = 30; // hauteur fixe pour les arbres
+      const treeWidth = 25; // largeur fixe pour les arbres
+      const posX = Math.random() * (this.width - treeWidth); // Position X aléatoire
+      const posY = this.distanceFromTop + Math.random() * (this.height - treeHeight); // Position Y aléatoire
+      this.trees.push(new Tree(treeHeight, treeWidth, './images/tree.png', posX, posY));
+      console.log("Width and Height of Grass:", this.width, this.height);
 
-    // Ajout de détails pour simuler l'herbe en pixel art
-    ctx.fillStyle = detailColor;
-    for (let y = distanceFromTop; y < distanceFromTop + this.height; y += 4) { // Espacement vertical des détails
-      for (let x = 0; x < width; x += 4) { // Espacement horizontal des détails
-          ctx.fillRect(x, y, 2, 2); // Taille des détails en pixels
-        
-      }
     }
   }
+
+
+  draw(ctx) {
+    // Dessiner l'herbe
+    ctx.fillStyle = this.color;
+    ctx.fillRect(0, this.distanceFromTop, this.width, this.height);
+    
+
+    // Dessiner les arbres
+    this.trees.forEach(tree => {
+      ctx.drawImage(tree.img, tree.posX, tree.posY); // Assurez-vous que draw est défini dans Tree
+      console.log("Tree Width and Height:", tree.posX, tree.posY);
+    });
+  }
+  
+  updateTreePosition() {
+    // Code pour mettre à jour les positions des arbres
+    for (let tree of this.trees) {
+        tree.posY = this.distanceFromTop;  // Exemple de mise à jour
+    }
 }
+}
+
+

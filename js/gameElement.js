@@ -39,7 +39,7 @@ class GameElement {
 export function generateRandomElement(height) {
     let randomNumber = Math.random();
     if (randomNumber < 0.33) {
-        return new Grass();
+        return new Grass(height);
     } else if (randomNumber < 0.66) {
         return new Road();
     } else {
@@ -55,8 +55,8 @@ export function generateTableOfEnvironment(canvasHeight) {
         elements.push(element);
     }
     // Add element, always start on grass
-    elements.push(new Grass());
-    elements.push(new Grass());
+    elements.push(new Grass(canvasHeight));
+    elements.push(new Grass(canvasHeight));
     return elements;
 }
 
@@ -77,7 +77,10 @@ export function updateEnvironment(elements){
         if(element instanceof River){
             element.updateObstacle();
         }
+        if (elements[i] instanceof Grass){
+            elements[i].updateTreePosition();
     }
+}
 }
 
 export function modifyEnvironment(elements) {
