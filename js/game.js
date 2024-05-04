@@ -5,32 +5,52 @@ Idea : We can split the canva in X part and each part is randomly choosed betwee
 When he jumps the part of the bottom is deleted and on the top you have a new randomly generated part
 */
 // Create the canvas
-let canvas = document.createElement("canvas");
+let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
-canvas.width = 600;
-canvas.height = 600;
-canvas.style.border = '1px solid black';
-// center the canvas
-canvas.style.position = 'absolute';
-canvas.style.left = '50%';
-canvas.style.top = '50%';
-canvas.style.transform = 'translate(-50%, -50%)';
+ctx.strokeStyle = 'black';
+ctx.lineWidth = 1;
 
-document.body.appendChild(canvas);
+//Events listener for keyboard
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawLines();
+    drawDuck();
+
+}
+setInterval(draw, 10);
 
 // Draw ligne to visualise every 40 pixel
 function drawLines() {
-    ctx.strokeStyle = 'black';
-    ctx.lineWidth = 1;
-    
-    for (let y = 0; y <= canvas.height; y += 40) {
+    for (let y = -1; y <= canvas.height; y += 40) {
         ctx.beginPath();
-        ctx.moveTo(0, y);
+        ctx.moveTo(-1, y);
         ctx.lineTo(canvas.width, y);
         ctx.stroke();
-    }
+    } 
 }
 
+function keyDownHandler(e) {
+    if(e.key == "Right" || e.key == "ArrowRight") {
+        duckX -= jumpDistance;
+        lastJumpTime = currentTime; 
+    }
+    else if(e.key == "Left" || e.key == "ArrowLeft") {
+        duckX += jumpDistance;
+        lastJumpTime = currentTime; 
+    }
+    else if(e.key == "Up" || e.key == "ArrowUp") {
+        duckY -= jumpDistance;
+        lastJumpTime = currentTime;
+    }
+    else if(e.key == "Down" || e.key == "ArrowDown") {
+        duckY += jumpDistance;
+         lastJumpTime = currentTime; 
+    }
+}
 // Duck
 let duckSize = 40;
 //Calcule the top left  position to be center horizontaly for the X
@@ -73,14 +93,14 @@ function limitDuckMovement() {
 //Store the different key
 var keys = {};
 
-//When the key is pressed it's become true
+/*/When the key is pressed it's become true
 document.addEventListener('keydown', function(event) {
     keys[event.key] = true;
 });
 //When the key is relaxed, it's become false
 document.addEventListener('keyup', function(event) {
     keys[event.key] = false;
-});
+});*/
 
 //Variable to avoid the possibility for the duck to slide if someone let the key pressed
 let lastJumpTime = 0;
@@ -151,7 +171,7 @@ function drawAllElement(){
     
     drawEnvironment(elements, ctx, canvas.width);
     updateEnvironment(elements);
-    drawLines();
+    //drawLines();
     //drawRiver();
     //drawWoodLogs();
     drawDuck();
@@ -167,4 +187,4 @@ function gameLoop() {
 }
 
 // Start the game
-gameLoop();
+//gameLoop();
