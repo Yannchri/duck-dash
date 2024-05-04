@@ -36,11 +36,11 @@ const duck = new Duck(duckSize, duckImage, 40);
 // Game loop
 reset();
 generateTableOfEnvironment();
+
 function draw() {
   if (phase === "start") {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawEnvironment();
-    updateEnvironment(environments);
     duck.draw(ctx);
     duck.duckMove(keys);
     drawLines();
@@ -50,11 +50,9 @@ setInterval(draw, 10);
 
 // Game functions
 function generateTableOfEnvironment() {
-  for (let y = 0; y < canvasHeight - 80; y += 40) {
+  for (let y = 0; y < canvasHeight; y += 40) {
     environments.push(generateRandomEnvironment(y));
   }
-  // Always start on grass
-  environments.push(new Grass(canvasHeight));
 }
 
 function generateRandomEnvironment(distanceFromTop) {
@@ -81,12 +79,6 @@ function drawEnvironment() {
   for (let i = 0; i < environments.length; i++) {
     let element = environments[i];
     element.draw(ctx, canvasWidth, element.distanceFromTop);
-  }
-}
-
-function updateEnvironment(elements) {
-  for (let i = 0; i < elements.length; i++) {
-    let element = elements[i];
     element.updateObstacle();
   }
 }
