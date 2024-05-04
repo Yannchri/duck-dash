@@ -41,16 +41,16 @@ function draw() {
   if (phase === "start") {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawEnvironment();
+    moveEnvironment(1);
     duck.draw(ctx);
     duck.duckMove(keys);
-    drawLines();
   }
 }
-setInterval(draw, 10);
+setInterval(draw, 20);
 
 // Game functions
 function generateTableOfEnvironment() {
-  for (let y = 0; y < canvasHeight; y += 40) {
+  for (let y = -80; y < canvasHeight; y += 40) {
     environments.push(generateRandomEnvironment(y));
   }
 }
@@ -83,12 +83,17 @@ function drawEnvironment() {
   }
 }
 
-// Draw ligne to visualise every 40 pixel
-function drawLines() {
-  for (let y = -1; y <= canvas.height; y += 40) {
-    ctx.beginPath();
-    ctx.moveTo(-1, y);
-    ctx.lineTo(canvas.width, y);
-    ctx.stroke();
+function moveEnvironment(speed) {
+  duck.duckY += speed;
+  for (let i = 0; i < environments.length; i++) {
+    let element = environments[i];
+    element.distanceFromTop = element.distanceFromTop + speed;
+  }
+  if (environments[environments.length - 1].distanceFromTop >= 600) {
+    // Décaler tous les éléments d'un indice vers le haut dans le tableau
+    for (let i = environments.length - 1; i > 0; i--) {
+      environments[i] = environments[i - 1];
+    }
+    environments[0] = generateRandomEnvironment(-80);
   }
 }

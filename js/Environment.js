@@ -22,8 +22,31 @@ export class Road extends Environment {
   constructor(distanceFromTop) {
     super(distanceFromTop);
     this.color = "gray";
+    this.generateCar(); // Appel de la méthode pour générer la voiture
   }
 
+  generateCar() {
+    const carHeight = this.height / 2;
+    //Just for testing to obtain 20, 30 , 40 ,50
+    const carWidth = 50;
+    const distanceFromTopEnvironement = this.distanceFromTop + carHeight / 2;
+    const carX = Math.random() * 600;
+    const speed = Math.random() * 5;
+    const direction = Math.random() < 0.5 ? "left" : "right"; // Direction aléatoire: gauche ou droite
+    this.obstacle = new Car(
+      carHeight,
+      carWidth,
+      "./images/woodLoogs.png",
+      carX,
+      distanceFromTopEnvironement,
+      speed,
+      direction
+    );
+  }
+  updateObstacle() {
+    this.obstacle.update(this.width);
+    this.obstacle.posY = this.distanceFromTop + this.height / 4;
+  }
   draw(ctx) {
     // Dessiner la base de la route
     ctx.fillStyle = this.color; // 'gray' est défini dans le constructeur
@@ -40,6 +63,8 @@ export class Road extends Environment {
     for (let x = 0; x < this.width; x += lineLength + lineGap) {
       ctx.fillRect(x, lineOffset, lineLength, lineWidth);
     }
+
+    ctx.drawImage(this.obstacle.img, this.obstacle.posX, this.obstacle.posY);
   }
 }
 
@@ -102,10 +127,7 @@ export class River extends Environment {
   //Modify on each loop the X position on a obstacle, called in gameElement
   updateObstacle() {
     this.obstacle.update(this.width);
-  }
-  //If the duck goes forward, we need to update all the canva to move the obstacle on posY
-  updateObstaclePosition(height) {
-    this.obstacle.posY = height;
+    this.obstacle.posY = this.distanceFromTop + this.height / 4;
   }
 }
 
