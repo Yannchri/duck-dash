@@ -13,7 +13,7 @@ export class Duck {
     this.isDuckAlive = true;
 
     this.duckX = (canvas.width - this.duckSize) / 2;
-    this.duckY = canvas.height - this.duckSize - 40;
+    this.duckY = canvas.height - this.duckSize - 120;
     this.lastJumpTime = 0;
     this.jumpDistance = jumpDistance;
   }
@@ -23,16 +23,13 @@ export class Duck {
   }
 
   limitDuckMovement() {
-    if (this.duckX < 0) {
-      this.duckX = 0;
-    } else if (this.duckX + this.duckSize > canvas.width) {
-      this.duckX = canvas.width - this.duckSize;
+    if (this.duckX < 0 || this.duckX + this.duckSize > canvas.width) {
+      this.isDuckAlive = false;
     }
-
     if (this.duckY < 0) {
       this.duckY = 0;
-    } else if (this.duckY + this.duckSize > canvas.height) {
-      this.duckY = canvas.height - this.duckSize;
+    } else if (this.duckY + this.duckSize >= canvas.height + 1) {
+      this.isDuckAlive = false;
     }
   }
 
@@ -62,16 +59,11 @@ export class Duck {
     this.limitDuckMovement();
   }
 
-  checkCollision(obstacles) {
-    for (let i = 0; i < obstacles.length; i++) {
-      if (
-        this.duckX < obstacles[i].x + obstacles[i].width &&
-        this.duckX + this.duckSize > obstacles[i].x &&
-        this.duckY < obstacles[i].y + obstacles[i].height &&
-        this.duckY + this.duckSize > obstacles[i].y
-      ) {
-        this.isDuckAlive = false;
-      }
+  duckOnWood(wood) {
+    if (wood.direction === "left") {
+      this.duckX -= wood.speed;
+    } else {
+      this.duckX += wood.speed;
     }
   }
 }

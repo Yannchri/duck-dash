@@ -66,7 +66,7 @@ export class Wood extends Obstacles {
 
 export class Car extends Obstacles {
   constructor(height, width, imgPath, posX, posY, speed, direction) {
-    super("wood", height, width, imgPath, posX, posY, speed, direction);
+    super("car", height, width, imgPath, posX, posY, speed, direction);
   }
 }
 
