@@ -8,37 +8,16 @@ export class Environment {
   color;
   distanceFromTop;
 
-
-  constructor(type, height, width, color) {
-    this.type = type;
-    this.height = height;
-    this.width = width;
-    this.color = color;
-  }
-
-  
-  setDistanceFromTop(distanceFromTop){
+  constructor(distanceFromTop) {
     this.distanceFromTop = distanceFromTop;
     this.height = 40;
     this.width = 600;
     this.obstacles = [];
   }
-  
-  getDistanceFromTop(){
-    return this.distanceFromTop;
-  }
 
-  getHeight(){
-    return this.height;
-  }
-  
-  draw(ctx,width,distanceFromTop) {
-    ctx.fillStyle = this.color;
-    //create the square distance from left, top, total width and total height
-    ctx.fillRect(0, distanceFromTop, width, this.height);
-}
-
-  setDifficulty(level) {}
+  draw() {}
+  updateObstacle() {}
+  setDifficulty() {}
 }
 
 const carImages = {
@@ -68,27 +47,58 @@ export class Road extends Environment {
     this.generateCar(); // Appel de la méthode pour générer la voiture
   }
 
-  draw(ctx, width, distanceFromTop) {
-    // Dessiner la base de la route
-    ctx.fillStyle = this.color;  // 'gray' est défini dans le constructeur
-    ctx.fillRect(0, distanceFromTop, width, this.height);
-
-    /*// Dessiner les marquages de la route
-    ctx.fillStyle = "white";  // Couleur des marquages
-    const lineLength = 40;  // Longueur de chaque marque
-    const lineGap = 60;  // Espace entre les marques
-    const lineWidth = 5;  // Largeur de chaque marque
-    const lineOffset = distanceFromTop + this.height / 2 - lineWidth / 2;  // Centrage vertical des marques
-
-    // Dessin des lignes discontinues au milieu de la route
-    for (let x = 0; x < width; x += lineLength + lineGap) {
-      ctx.fillRect(x, lineOffset, lineLength, lineWidth);
+  generateCar() {
+    const carHeight = this.height / 4 *3;
+    //Just for testing to obtain 20, 30 , 40 ,50
+    const carWidth = 50;
+    const distanceFromTopEnvironement = this.distanceFromTop + carHeight / 2;
+    const carX = Math.random() * 600;
+    const speed = Math.random() * 5 + 1;
+    const direction = Math.random() < 0.5 ? "left" : "right"; // Direction aléatoire: gauche ou droite
+    const colors = ["green", "red", "blue", "gray"]; 
+    const selectedColor = colors[Math.floor(Math.random() * colors.length)];
+    const imgPath = carImages[selectedColor][direction]; 
+    
+    this.obstacles.push(
+      new Car(
+        carHeight,
+        carWidth,
+        imgPath,
+        carX,
+        distanceFromTopEnvironement,
+        speed,
+        direction
+      )
+    );
+  }
+  updateObstacle() {
+    for (let car of this.obstacles) {
+      car.update(this.width);
+      car.posY = this.distanceFromTop + this.height / 4;
     }
   }
-  setDirection() {}*/
+  draw(ctx) {
+    // Dessiner la base de la route
+    ctx.fillStyle = this.color; // 'gray' est défini dans le constructeur
+    ctx.fillRect(0, this.distanceFromTop, this.width, this.height);
+
+    // Dessiner les marquages de la route
+    ctx.fillStyle = "white"; // Couleur des marquages
+    const lineLength = 40; // Longueur de chaque marque
+    const lineGap = 60; // Espace entre les marques
+    const lineWidth = 5; // Largeur de chaque marque
+    const lineOffset = this.distanceFromTop + this.height / 2 - lineWidth / 2; // Centrage vertical des marques
+
+    // Dessin des lignes discontinues au milieu de la route
+    for (let x = 0; x < this.width; x += lineLength + lineGap) {
+      ctx.fillRect(x, lineOffset, lineLength, lineWidth);
+    }
+
+    this.obstacles.forEach((car) => {
+      ctx.drawImage(car.img, car.posX, car.posY); // Assurez-vous que draw est défini dans Tree
+    });
+  }
 }
-} 
-  
 
 /*Constructeur de la rivière
 -Besoin de distanceFromTop dans le constructeur pour adapter les obstacles quand tu déplaces l'environnement
@@ -152,12 +162,11 @@ export class River extends Environment {
 
   //Modify on each loop the X position on a obstacle, called in gameElement
   updateObstacle() {
-    this.obstacle.update(this.width);
-    //If the duck goes forward, we need to update all the canva to move the obstacle on posY
-    this.obstacle.posY = this.distanceFromTop + (this.height/4);
+    for (let wood of this.obstacles) {
+      wood.update(this.width);
+      wood.posY = this.distanceFromTop + this.height / 4;
+    }
   }
-  
-
 }
 
 export class Grass extends Environment {
