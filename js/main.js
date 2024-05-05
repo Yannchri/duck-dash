@@ -13,6 +13,7 @@ ctx.lineWidth = 1;
 let phase = "start";
 let screenOffset = 0;
 let obstacles = [];
+let nearerObstacles = [];
 let environments = [];
 let score = 0;
 let keys = {};
@@ -35,23 +36,28 @@ const duck = new Duck(duckSize, duckImage, 40);
 
 // Game loop
 reset();
-generateTableOfEnvironment();
 
 function draw() {
+  checkDuckState();
+  duck.duckMove(keys);
   if (phase === "start") {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawEnvironment();
     moveEnvironment(1);
+    drawEnvironment();
     duck.draw(ctx);
-    duck.duckMove(keys);
+    checkCollision();
   }
 }
-setInterval(draw, 20);
+setInterval(draw, 15);
 
 // Game functions
 function generateTableOfEnvironment() {
   for (let y = -80; y < canvasHeight; y += 40) {
-    environments.push(generateRandomEnvironment(y));
+    if (y >= canvasHeight - 320) {
+      environments.push(new Grass(y));
+    } else {
+      environments.push(generateRandomEnvironment(y));
+    }
   }
 }
 
@@ -88,12 +94,42 @@ function moveEnvironment(speed) {
   for (let i = 0; i < environments.length; i++) {
     let element = environments[i];
     element.distanceFromTop = element.distanceFromTop + speed;
-  }
-  if (environments[environments.length - 1].distanceFromTop >= 600) {
-    // Décaler tous les éléments d'un indice vers le haut dans le tableau
-    for (let i = environments.length - 1; i > 0; i--) {
-      environments[i] = environments[i - 1];
+    if (element.distanceFromTop >= canvasHeight) {
+      environments.unshift(generateRandomEnvironment(-80));
+      environments.pop();
     }
-    environments[0] = generateRandomEnvironment(-80);
+  }
+}
+
+function checkCollision() {
+  // If it's not the duck environment, we don't need to check the collision
+  for (let i = 0; i < environments.length; i++) {
+    if (
+      environments[i].obstacles === undefined ||
+      environments[i].distanceFromTop !== duck.duckY
+    )
+      continue;
+    // If the duck is in the environment, we need to check the collision
+    else {
+      let obstacles = environments[i].obstacles;
+      for (let j = 0; j < obstacles.length; j++) {
+        let obstacle = obstacles[j];
+        let collision =
+          duck.duckX < obstacle.posX + obstacle.width &&
+          duck.duckX + duckSize > obstacle.posX;
+        if (collision && obstacle.type === "wood") {
+          duck.duckOnWood(obstacle);
+        } else if (collision) {
+          duck.isDuckAlive = false;
+          break;
+        } else if (environments[i].type === "river") duck.isDuckAlive = false;
+      }
+    }
+  }
+}
+
+function checkDuckState() {
+  if (duck.isDuckAlive === false) {
+    phase = "end";
   }
 }

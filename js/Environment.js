@@ -1,6 +1,7 @@
 import { Wood, Tree, Car } from "./Obstacles.js";
 
 export class Environment {
+  type;
   obstacles;
   height;
   width;
@@ -11,6 +12,7 @@ export class Environment {
     this.distanceFromTop = distanceFromTop;
     this.height = 40;
     this.width = 600;
+    this.obstacles = [];
   }
 
   draw() {}
@@ -22,6 +24,7 @@ export class Road extends Environment {
   constructor(distanceFromTop) {
     super(distanceFromTop);
     this.color = "gray";
+    this.type = "road";
     this.generateCar(); // Appel de la méthode pour générer la voiture
   }
 
@@ -31,21 +34,25 @@ export class Road extends Environment {
     const carWidth = 50;
     const distanceFromTopEnvironement = this.distanceFromTop + carHeight / 2;
     const carX = Math.random() * 600;
-    const speed = Math.random() * 5;
+    const speed = Math.random() * 5 + 1;
     const direction = Math.random() < 0.5 ? "left" : "right"; // Direction aléatoire: gauche ou droite
-    this.obstacle = new Car(
-      carHeight,
-      carWidth,
-      "./images/woodLoogs.png",
-      carX,
-      distanceFromTopEnvironement,
-      speed,
-      direction
+    this.obstacles.push(
+      new Car(
+        carHeight,
+        carWidth,
+        "./images/woodLoogs.png",
+        carX,
+        distanceFromTopEnvironement,
+        speed,
+        direction
+      )
     );
   }
   updateObstacle() {
-    this.obstacle.update(this.width);
-    this.obstacle.posY = this.distanceFromTop + this.height / 4;
+    for (let car of this.obstacles) {
+      car.update(this.width);
+      car.posY = this.distanceFromTop + this.height / 4;
+    }
   }
   draw(ctx) {
     // Dessiner la base de la route
@@ -64,7 +71,9 @@ export class Road extends Environment {
       ctx.fillRect(x, lineOffset, lineLength, lineWidth);
     }
 
-    ctx.drawImage(this.obstacle.img, this.obstacle.posX, this.obstacle.posY);
+    this.obstacles.forEach((car) => {
+      ctx.drawImage(car.img, car.posX, car.posY); // Assurez-vous que draw est défini dans Tree
+    });
   }
 }
 
@@ -76,6 +85,7 @@ export class River extends Environment {
   constructor(distanceFromTop) {
     super(distanceFromTop); // Base color for the river
     this.color = "#204bb0";
+    this.type = "river";
     this.generateWood(); // Appel de la méthode pour générer le bois
   }
 
@@ -93,14 +103,16 @@ export class River extends Environment {
     const woodX = Math.random() * 600;
     const speed = Math.random() * 5;
     const direction = Math.random() < 0.5 ? "left" : "right"; // Direction aléatoire: gauche ou droite
-    this.obstacle = new Wood(
-      woodHeight,
-      woodWidth,
-      "./images/woodLoogs.png",
-      woodX,
-      distanceFromTopEnvironement,
-      speed,
-      direction
+    this.obstacles.push(
+      new Wood(
+        woodHeight,
+        woodWidth,
+        "./images/woodLoogs.png",
+        woodX,
+        distanceFromTopEnvironement,
+        speed,
+        direction
+      )
     );
   }
 
@@ -120,14 +132,17 @@ export class River extends Environment {
         ctx.fillRect(x, y, 2, 2);
       }
     }
-
-    ctx.drawImage(this.obstacle.img, this.obstacle.posX, this.obstacle.posY);
+    this.obstacles.forEach((wood) => {
+      ctx.drawImage(wood.img, wood.posX, wood.posY); // Assurez-vous que draw est défini dans Tree
+    });
   }
 
   //Modify on each loop the X position on a obstacle, called in gameElement
   updateObstacle() {
-    this.obstacle.update(this.width);
-    this.obstacle.posY = this.distanceFromTop + this.height / 4;
+    for (let wood of this.obstacles) {
+      wood.update(this.width);
+      wood.posY = this.distanceFromTop + this.height / 4;
+    }
   }
 }
 
@@ -135,23 +150,23 @@ export class Grass extends Environment {
   constructor(distanceFromTop) {
     super(distanceFromTop);
     this.color = "green";
-    this.trees = []; // Initialise le tableau d'arbres
+    this.type = "grass";
     this.generateTrees();
   }
 
   // Générer un nombre aléatoire d'arbres avec des positions aléatoires
   generateTrees() {
-    const numberOfTrees = Math.floor(Math.random() * 5) + 0; // entre 1 et 10 arbres
+    const numberOfTrees = Math.floor(Math.random() * 5); // entre 1 et 10 arbres
     for (let i = 0; i < numberOfTrees; i++) {
       const treeHeight = 40; // hauteur fixe pour les arbres
       const treeWidth = 40; // largeur fixe pour les arbres
       const posX =
         Math.floor(Math.random() * ((this.width - treeWidth) / 40)) * 40; // Position X aléatoire
-      const posY =
-        this.distanceFromTop + Math.random() * (this.height - treeHeight); // Position Y aléatoire
-      this.trees.push(
-        new Tree(treeHeight, treeWidth, "./images/tree.png", posX, posY)
-      );
+      const posY = this.distanceFromTop;
+      if (posX != 280)
+        this.obstacles.push(
+          new Tree(treeHeight, treeWidth, "./images/tree.png", posX, posY)
+        );
     }
   }
 
@@ -161,14 +176,14 @@ export class Grass extends Environment {
     ctx.fillRect(0, this.distanceFromTop, this.width, this.height);
 
     // Dessiner les arbres
-    this.trees.forEach((tree) => {
+    this.obstacles.forEach((tree) => {
       ctx.drawImage(tree.img, tree.posX, tree.posY); // Assurez-vous que draw est défini dans Tree
     });
   }
 
   updateObstacle() {
     // Code pour mettre à jour les positions des arbres
-    for (let tree of this.trees) {
+    for (let tree of this.obstacles) {
       tree.posY = this.distanceFromTop; // Exemple de mise à jour
     }
   }
