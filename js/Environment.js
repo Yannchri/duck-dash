@@ -20,6 +20,25 @@ export class Environment {
   setDifficulty() {}
 }
 
+const carImages = {
+  green: {
+      left: "./images/CarGreenR.png",
+      right: "./images/CarGreenL.png"
+  },
+  red: {
+      left: "./images/CarRedR.png",
+      right: "./images/CarRedL.png"
+  },
+  blue: {
+      left: "./images/CarBlueR.png",
+      right: "./images/CarBlueL.png"
+  },
+  gray: {
+      left: "./images/CarGrayR.png",
+      right: "./images/CarGrayL.png"
+  }
+};
+
 export class Road extends Environment {
   constructor(distanceFromTop) {
     super(distanceFromTop);
@@ -29,18 +48,22 @@ export class Road extends Environment {
   }
 
   generateCar() {
-    const carHeight = this.height / 2;
+    const carHeight = this.height / 4 *3;
     //Just for testing to obtain 20, 30 , 40 ,50
     const carWidth = 50;
     const distanceFromTopEnvironement = this.distanceFromTop + carHeight / 2;
     const carX = Math.random() * 600;
     const speed = Math.random() * 5 + 1;
     const direction = Math.random() < 0.5 ? "left" : "right"; // Direction aléatoire: gauche ou droite
+    const colors = ["green", "red", "blue", "gray"]; 
+    const selectedColor = colors[Math.floor(Math.random() * colors.length)];
+    const imgPath = carImages[selectedColor][direction]; 
+    
     this.obstacles.push(
       new Car(
         carHeight,
         carWidth,
-        "./images/woodLoogs.png",
+        imgPath,
         carX,
         distanceFromTopEnvironement,
         speed,

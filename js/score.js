@@ -1,17 +1,30 @@
-import { duckY } from "./game.js";
+import { Duck } from "./Duck.js";
 
-let currentScore = duckY;
-const scoreDisplay = document.querySelector(".score");
+let myDuck = new Duck(40, "path/to/duckImage.png", 10);
+let highestScore = 0;
+let bestScores = [];
 
-export function updateScore() {
-    // Sélectionne l'élément du DOM où le score est affiché
-    const scoreDisplay = document.getElementById('scoreDisplay');
+
+export function drawScore(ctx, Duck) {
+    let currentScore = Duck.getScore();
     
-    // Met à jour le contenu textuel de cet élément avec le score actuel
-    scoreDisplay.textContent = `Score: ${currentScore}`;
-  }
-updateScore();
+    if (highestScore < Duck.getScore())
+      highestScore = currentScore;
 
-let bestScores = [10];
+    ctx.font = '20px Arial bold';
+    ctx.fillStyle = 'white';
+    ctx.fillText('Score: ' + highestScore, 10, 30);
+
+}
+
+
+export function storedScore(highestScore) {
+  bestScores.push(highestScore);
+  bestScores.sort((a, b) => b - a);
+  bestScores = bestScores.slice(0, 10);
+
+  console.log("Top 10 : ", bestScores);
+}
+
 
 
