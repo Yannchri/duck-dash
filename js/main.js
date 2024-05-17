@@ -32,7 +32,7 @@ document.addEventListener("keyup", function (event) {
 // Duck configuration and creation
 let duckSize = 40;
 let duckImage = new Image();
-duckImage.src = "images/duck.png";
+duckImage.src = "./images/Duck.png";
 const duck = new Duck(duckSize, duckImage, 40);
 
 // Game loop
