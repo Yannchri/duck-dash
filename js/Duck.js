@@ -72,8 +72,6 @@ export class Duck {
   }
 
   getScore() {
-    return this._score;  // Getter pour le score
+    return this._score; // Getter pour le score
   }
-
-  
 }
