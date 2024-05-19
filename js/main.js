@@ -41,13 +41,13 @@ reset();
 function draw() {
   checkDuckState();
   duck.duckMove(keys);
+  checkCollision();
   if (phase === "start") {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     moveEnvironment(1);
     drawEnvironment();
     duck.draw(ctx);
     drawScore(ctx, duck);
-    checkCollision();
   }
 }
 setInterval(draw, 15);
@@ -121,9 +121,11 @@ function checkCollision() {
           duck.duckX + duckSize > obstacle.posX;
         if (collision && obstacle.type === "wood") {
           duck.duckOnWood(obstacle);
-        } else if (collision) {
-          duck.isDuckAlive = false;
+        } else if (collision && obstacle.type === "tree") {
+          duck.undoMove();
           break;
+        } else if (collision && obstacle.type === "car") {
+          duck.isDuckAlive = false;
         } else if (environments[i].type === "river") duck.isDuckAlive = false;
       }
     }

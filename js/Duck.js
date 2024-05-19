@@ -6,6 +6,7 @@ export class Duck {
   duckImage;
   lastJumpTime;
   jumpDistance;
+  lastMove;
   _score;
 
   constructor(duckSize, duckImage, jumpDistance) {
@@ -18,6 +19,7 @@ export class Duck {
     this.lastJumpTime = 0;
     this.jumpDistance = jumpDistance;
     this._score = 0;
+    this.lastMove = null;
   }
 
   draw(ctx) {
@@ -40,6 +42,8 @@ export class Duck {
   duckMove(keys) {
     let currentTime = Date.now();
 
+    this.limitDuckMovement();
+
     // limit to 0,3 second betweeen each jump
     if (currentTime - this.lastJumpTime > 200) {
       if (keys["ArrowLeft"]) {
@@ -61,8 +65,8 @@ export class Duck {
         this._score -= 1;
       }
     }
+    this.lastMove = keys;
     //Verify the movement
-    this.limitDuckMovement();
   }
 
   duckOnWood(wood) {
@@ -70,6 +74,19 @@ export class Duck {
       this.duckX -= wood.speed;
     } else {
       this.duckX += wood.speed;
+    }
+  }
+
+  undoMove() {
+    this._score -= 1;
+    if (this.lastMove["ArrowLeft"]) {
+      this.duckX += this.jumpDistance;
+    } else if (this.lastMove["ArrowRight"]) {
+      this.duckX -= this.jumpDistance;
+    } else if (this.lastMove["ArrowUp"]) {
+      this.duckY += this.jumpDistance;
+    } else if (this.lastMove["ArrowDown"]) {
+      this.duckY -= this.jumpDistance;
     }
   }
 

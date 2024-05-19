@@ -22,21 +22,21 @@ export class Environment {
 
 const carImages = {
   green: {
-      left: "./images/CarGreenR.png",
-      right: "./images/CarGreenL.png"
+    left: "./images/CarGreenR.png",
+    right: "./images/CarGreenL.png",
   },
   red: {
-      left: "./images/CarRedR.png",
-      right: "./images/CarRedL.png"
+    left: "./images/CarRedR.png",
+    right: "./images/CarRedL.png",
   },
   blue: {
-      left: "./images/CarBlueR.png",
-      right: "./images/CarBlueL.png"
+    left: "./images/CarBlueR.png",
+    right: "./images/CarBlueL.png",
   },
   gray: {
-      left: "./images/CarGrayR.png",
-      right: "./images/CarGrayL.png"
-  }
+    left: "./images/CarGrayR.png",
+    right: "./images/CarGrayL.png",
+  },
 };
 
 export class Road extends Environment {
@@ -48,17 +48,17 @@ export class Road extends Environment {
   }
 
   generateCar() {
-    const carHeight = this.height / 4 *3;
+    const carHeight = (this.height / 4) * 3;
     //Just for testing to obtain 20, 30 , 40 ,50
     const carWidth = 50;
     const distanceFromTopEnvironement = this.distanceFromTop + carHeight / 2;
     const carX = Math.random() * 600;
     const speed = Math.random() * 5 + 1;
     const direction = Math.random() < 0.5 ? "left" : "right"; // Direction aléatoire: gauche ou droite
-    const colors = ["green", "red", "blue", "gray"]; 
+    const colors = ["green", "red", "blue", "gray"];
     const selectedColor = colors[Math.floor(Math.random() * colors.length)];
-    const imgPath = carImages[selectedColor][direction]; 
-    
+    const imgPath = carImages[selectedColor][direction];
+
     this.obstacles.push(
       new Car(
         carHeight,
@@ -121,10 +121,10 @@ export class River extends Environment {
   generateWood() {
     const woodHeight = this.height / 2;
     //Just for testing to obtain 20, 30 , 40 ,50
-    const woodWidth = Math.floor(Math.random() * 4) * 10 + 20;
+    const woodWidth = Math.floor(Math.random() * 4 + 1) * 40;
     const distanceFromTopEnvironement = this.distanceFromTop + woodHeight / 2;
     const woodX = Math.random() * 600;
-    const speed = Math.random() * 5;
+    const speed = Math.random() * 5 + 1;
     const direction = Math.random() < 0.5 ? "left" : "right"; // Direction aléatoire: gauche ou droite
     this.obstacles.push(
       new Wood(
