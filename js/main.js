@@ -117,8 +117,8 @@ function checkCollision() {
       for (let j = 0; j < obstacles.length; j++) {
         let obstacle = obstacles[j];
         let collision =
-          duck.duckX < obstacle.posX + obstacle.width &&
-          duck.duckX + duckSize > obstacle.posX;
+          duck.duckX + 10 < obstacle.posX + obstacle.width &&
+          duck.duckX - 10 + duckSize > obstacle.posX;
         if (collision && obstacle.type === "wood") {
           duck.duckOnWood(obstacle);
         } else if (collision && obstacle.type === "tree") {
