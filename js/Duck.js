@@ -25,8 +25,10 @@ export class Duck {
   }
 
   limitDuckMovement() {
-    if (this.duckX < 0 || this.duckX + this.duckSize > canvas.width) {
-      this.isDuckAlive = false;
+    if (this.duckX < 0) {
+      this.duckX = canvas.width - this.duckSize;
+    } else if (this.duckX + this.duckSize > canvas.width) {
+      this.duckX = 0;
     }
     if (this.duckY < 0) {
       this.duckY = 0;
