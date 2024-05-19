@@ -45,7 +45,7 @@ export class Duck {
     this.limitDuckMovement();
 
     // limit to 0,3 second betweeen each jump
-    if (currentTime - this.lastJumpTime > 200) {
+    if (currentTime - this.lastJumpTime > 100) {
       if (keys["ArrowLeft"]) {
         this.duckX -= this.jumpDistance;
         this.lastJumpTime = currentTime;
@@ -88,9 +88,5 @@ export class Duck {
     } else if (this.lastMove["ArrowDown"]) {
       this.duckY -= this.jumpDistance;
     }
-  }
-
-  getScore() {
-    return this._score; // Getter pour le score
   }
 }

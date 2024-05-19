@@ -1,22 +1,30 @@
-import { Duck } from "./Duck.js";
-
 let highestScore = 0;
 let bestScores = [];
 
-export function drawScore(ctx, Duck) {
-  let currentScore = Duck.getScore();
+export function getScores() {
+  if (localStorage.getItem("bestScores") !== null) {
+    bestScores = localStorage.getItem("bestScores").split(",");
+  }
+}
 
-  if (highestScore < Duck.getScore()) highestScore = currentScore;
+export function setScores(score) {
+  getScores();
+  bestScores.push(score);
+  bestScores.sort((a, b) => b - a);
+
+  console.log("Top 10 : ", bestScores);
+
+  localStorage.setItem("bestScores", bestScores);
+}
+
+export function drawScore(ctx, duck) {
+  let currentScore = duck._score;
+
+  if (highestScore < duck._score) highestScore = currentScore;
 
   ctx.font = "20px Arial bold";
   ctx.fillStyle = "white";
   ctx.fillText("Score: " + highestScore, 10, 30);
 }
 
-export function storedScore(highestScore) {
-  bestScores.push(highestScore);
-  bestScores.sort((a, b) => b - a);
-  bestScores = bestScores.slice(0, 10);
-
-  console.log("Top 10 : ", bestScores);
-}
+export function storedScore(highestScore) {}

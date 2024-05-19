@@ -1,6 +1,6 @@
 import { Duck } from "./Duck.js";
 import { Grass, Road, River } from "./Environment.js";
-import { drawScore, storedScore } from "./score.js";
+import { drawScore, setScores, storedScore } from "./score.js";
 
 // Canvas creation
 let canvas = document.getElementById("canvas");
@@ -19,6 +19,7 @@ let environments = [];
 let score = 0;
 let keys = {};
 let rnd = Math.random;
+let interval;
 
 // Configuration
 // Keyboard event listener
@@ -48,10 +49,12 @@ function draw() {
     drawEnvironment();
     duck.draw(ctx);
     drawScore(ctx, duck);
+  } else {
+    setScores(duck._score);
+    clearInterval(interval);
   }
 }
-setInterval(draw, 15);
-
+interval = setInterval(draw, 15);
 // Game functions
 function generateTableOfEnvironment() {
   for (let y = -80; y < canvasHeight; y += 40) {
@@ -123,7 +126,6 @@ function checkCollision() {
           duck.duckOnWood(obstacle);
         } else if (collision && obstacle.type === "tree") {
           duck.undoMove();
-          break;
         } else if (collision && obstacle.type === "car") {
           duck.isDuckAlive = false;
         } else if (environments[i].type === "river") duck.isDuckAlive = false;
