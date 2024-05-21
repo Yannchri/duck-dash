@@ -42,7 +42,7 @@ reset();
 function draw() {
   checkDuckState();
   duck.duckMove(keys);
-  checkCollision();
+  duck.checkCollision(environments);
   if (phase === "start") {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     moveEnvironment(1);
@@ -102,34 +102,6 @@ function moveEnvironment(speed) {
     if (element.distanceFromTop >= canvasHeight) {
       environments.unshift(generateRandomEnvironment(-80));
       environments.pop();
-    }
-  }
-}
-
-function checkCollision() {
-  // If it's not the duck environment, we don't need to check the collision
-  for (let i = 0; i < environments.length; i++) {
-    if (
-      environments[i].obstacles === undefined ||
-      environments[i].distanceFromTop !== duck.duckY
-    )
-      continue;
-    // If the duck is in the environment, we need to check the collision
-    else {
-      let obstacles = environments[i].obstacles;
-      for (let j = 0; j < obstacles.length; j++) {
-        let obstacle = obstacles[j];
-        let collision =
-          duck.duckX + 10 < obstacle.posX + obstacle.width &&
-          duck.duckX - 10 + duckSize > obstacle.posX;
-        if (collision && obstacle.type === "wood") {
-          duck.duckOnWood(obstacle);
-        } else if (collision && obstacle.type === "tree") {
-          duck.undoMove();
-        } else if (collision && obstacle.type === "car") {
-          duck.isDuckAlive = false;
-        } else if (environments[i].type === "river") duck.isDuckAlive = false;
-      }
     }
   }
 }

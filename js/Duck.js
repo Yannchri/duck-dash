@@ -69,6 +69,35 @@ export class Duck {
     //Verify the movement
   }
 
+  checkCollision(environments) {
+    // If it's not the duck environment, we don't need to check the collision
+    for (let i = 0; i < environments.length; i++) {
+      if (
+        environments[i].obstacles === undefined ||
+        environments[i].distanceFromTop !== this.duckY
+      )
+        continue;
+      // If the duck is in the environment, we need to check the collision
+      else {
+        let obstacles = environments[i].obstacles;
+        for (let j = 0; j < obstacles.length; j++) {
+          let obstacle = obstacles[j];
+          let collision =
+            this.duckX + 10 < obstacle.posX + obstacle.width &&
+            this.duckX - 10 + this.duckSize > obstacle.posX;
+          if (collision && obstacle.type === "wood") {
+            this.duckOnWood(obstacle);
+          } else if (collision && obstacle.type === "tree") {
+            this.undoMove();
+          } else if (collision && obstacle.type === "car") {
+            this.isDuckAlive = false;
+          } else if (environments[i].type === "river") this.isDuckAlive = false;
+        }
+      }
+    }
+  }
+  
+
   duckOnWood(wood) {
     if (wood.direction === "left") {
       this.duckX -= wood.speed;
