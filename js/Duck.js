@@ -9,12 +9,12 @@ export class Duck {
   lastMove;
   _score;
 
-  constructor(duckSize, duckImage, jumpDistance) {
+  constructor(duckSize, duckImage, jumpDistance, duckX) {
     this.duckSize = duckSize;
     this.duckImage = duckImage;
     this.isDuckAlive = true;
 
-    this.duckX = (canvas.width - this.duckSize) / 2;
+    this.duckX = duckX;
     this.duckY = canvas.height - this.duckSize - 120;
     this.lastJumpTime = 0;
     this.jumpDistance = jumpDistance;
@@ -44,8 +44,8 @@ export class Duck {
 
     this.limitDuckMovement();
 
-    // limit to 0,3 second betweeen each jump
-    if (currentTime - this.lastJumpTime > 100) {
+    // limit to 0,15 second betweeen each jump
+    if (currentTime - this.lastJumpTime > 150) {
       if (keys["ArrowLeft"]) {
         this.duckX -= this.jumpDistance;
         this.lastJumpTime = currentTime;
@@ -66,7 +66,6 @@ export class Duck {
       }
     }
     this.lastMove = keys;
-    //Verify the movement
   }
 
   checkCollision(environments) {
@@ -88,7 +87,7 @@ export class Duck {
           if (collision && obstacle.type === "wood") {
             this.duckOnWood(obstacle);
           } else if (collision && obstacle.type === "tree") {
-            this.undoMove();
+            this.undoMove(obstacle);
           } else if (collision && obstacle.type === "car") {
             this.isDuckAlive = false;
           } else if (environments[i].type === "river") this.isDuckAlive = false;
@@ -106,12 +105,12 @@ export class Duck {
     }
   }
 
-  undoMove() {
+  undoMove(obstacle) {
     this._score -= 1;
     if (this.lastMove["ArrowLeft"]) {
-      this.duckX += this.jumpDistance;
+      this.duckX = obstacle.posX + obstacle.width;
     } else if (this.lastMove["ArrowRight"]) {
-      this.duckX -= this.jumpDistance;
+      this.duckX = obstacle.posX - this.duckSize;
     } else if (this.lastMove["ArrowUp"]) {
       this.duckY += this.jumpDistance;
     } else if (this.lastMove["ArrowDown"]) {

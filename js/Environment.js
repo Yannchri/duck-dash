@@ -141,12 +141,9 @@ export class River extends Environment {
   }
 
   draw(ctx) {
-    const detailRiverColor = "#0400d9";
-
     ctx.fillStyle = this.color;
     ctx.fillRect(0, this.distanceFromTop, this.width, this.height);
 
-    ctx.fillStyle = detailRiverColor;
     for (
       let y = this.distanceFromTop;
       y < this.distanceFromTop + this.height;

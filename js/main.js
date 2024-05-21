@@ -34,11 +34,10 @@ document.addEventListener("keyup", function (event) {
 let duckSize = 40;
 let duckImage = new Image();
 duckImage.src = "./images/Duck.png";
-const duck = new Duck(duckSize, duckImage, 40);
+const duck = new Duck(duckSize, duckImage, 40, 280);
 
 // Game loop
 reset();
-
 function draw() {
   checkDuckState();
   duck.duckMove(keys);
@@ -54,7 +53,8 @@ function draw() {
     clearInterval(interval);
   }
 }
-interval = setInterval(draw, 15);
+interval = setInterval(draw, 20);
+
 // Game functions
 function generateTableOfEnvironment() {
   for (let y = -80; y < canvasHeight; y += 40) {
