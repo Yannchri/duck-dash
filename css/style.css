@@ -42,7 +42,7 @@ canvas {
   min-width: 25%;
   height: 50px;
   transform: translate(-50%, -50%);
-  background-color: #fa7d2f; /* Orange */
+  background-color: #fa7d2f; 
   border: #000, 2px, solid;
   color: #fff; /* Blanc */
   cursor: pointer;
@@ -55,7 +55,7 @@ canvas {
 }
 
 .button:hover {
-  background-color: #ffccaa; /* Orange */
+  background-color: #ffccaa; 
 }
 
 #start {
