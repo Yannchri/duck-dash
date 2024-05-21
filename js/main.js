@@ -14,12 +14,12 @@ ctx.lineWidth = 1;
 let phase = "start";
 let screenOffset = 0;
 let obstacles = [];
-let nearerObstacles = [];
 let environments = [];
 let score = 0;
 let keys = {};
 let rnd = Math.random;
 let interval;
+let woodDirection = false; // false = left, true = right to keep track of the direction of the wood
 
 // Configuration
 // Keyboard event listener
@@ -73,7 +73,9 @@ function generateRandomEnvironment(distanceFromTop) {
   } else if (elementId === 1) {
     return new Road(distanceFromTop);
   } else {
-    return new River(distanceFromTop);
+    let direction = woodDirection ? "right" : "left";
+    woodDirection = !woodDirection;
+    return new River(distanceFromTop, direction);
   }
 }
 

@@ -105,10 +105,12 @@ export class Road extends Environment {
 
 */
 export class River extends Environment {
-  constructor(distanceFromTop) {
+  direction;
+  constructor(distanceFromTop, woodDirection) {
     super(distanceFromTop); // Base color for the river
     this.color = "#204bb0";
     this.type = "river";
+    this.direction = woodDirection;
     this.generateWood(); // Appel de la méthode pour générer le bois
   }
 
@@ -125,7 +127,6 @@ export class River extends Environment {
     const distanceFromTopEnvironement = this.distanceFromTop + woodHeight / 2;
     const woodX = Math.random() * 600;
     const speed = Math.random() * 5 + 1;
-    const direction = Math.random() < 0.5 ? "left" : "right"; // Direction aléatoire: gauche ou droite
     this.obstacles.push(
       new Wood(
         woodHeight,
@@ -134,7 +135,7 @@ export class River extends Environment {
         woodX,
         distanceFromTopEnvironement,
         speed,
-        direction
+        this.direction
       )
     );
   }
