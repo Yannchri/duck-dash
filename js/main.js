@@ -1,6 +1,6 @@
 import { Duck } from "./Duck.js";
 import { Grass, Road, River } from "./Environment.js";
-import { drawScore, setScores, storedScore } from "./score.js";
+import { drawScore, setScores, storedScore, getHighestScore } from "./score.js";
 
 // Canvas creation
 let canvas = document.getElementById("canvas");
@@ -25,7 +25,14 @@ let woodDirection = false; // false = left, true = right to keep track of the di
 // Configuration
 // Keyboard event listener
 document.addEventListener("keydown", function (event) {
-  keys[event.key] = true;
+  if (event.key === "Enter"){
+    if (!duck.isDuckAlive){
+      reset();
+    }
+  } else {
+    keys[event.key] = true;
+  }
+   
 });
 document.addEventListener("keyup", function (event) {
   keys[event.key] = false;
@@ -80,6 +87,7 @@ function generateRandomEnvironment(distanceFromTop) {
 
 // Reset the game
 function reset() {
+  clearEndGame();
   user = localStorage.getItem("username");
   phase = "start";
   screenOffset = 0;
@@ -112,5 +120,24 @@ function moveEnvironment(speed) {
 function checkDuckState() {
   if (duck.isDuckAlive === false) {
     phase = "end";
+    showEndGame();
   }
+}
+
+function showEndGame() {
+  if (phase === 'end'){
+  ctx.fillStyle = 'rgba(0,0,0,0.5)'
+  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+  ctx.textAlign = "center";
+  ctx.font = "30px Arial";
+  ctx.fillStyle = "white";
+  ctx.fillText("Game Over", canvasWidth/2, canvasHeight/2 - 50);
+  ctx.fillText("Your score is " + getHighestScore(), canvasWidth/2, canvasHeight/2);
+  ctx.fillText('To play again, press "Enter"', canvasWidth/2, canvasHeight/2 + 50);
+  }
+  
+}
+
+function clearEndGame() {
+  ctx.clearRect(0,0,canvasWidth, canvasHeight);
 }

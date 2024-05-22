@@ -9,6 +9,10 @@ export function getScores() {
   return bestScores;
 }
 
+export function getHighestScore() {
+  return highestScore;
+}
+
 export function setScores(user, score) {
   getScores();
   bestScores.push({ user: user, score: score });
