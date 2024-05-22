@@ -16,6 +16,7 @@ let screenOffset = 0;
 let obstacles = [];
 let environments = [];
 let score = 0;
+let user = "testUser";
 let keys = {};
 let rnd = Math.random;
 let interval;
@@ -49,13 +50,11 @@ function draw() {
     duck.draw(ctx);
     drawScore(ctx, duck);
   } else {
-    setScores(duck._score);
+    setScores(user, duck._score);
     clearInterval(interval);
   }
 }
-interval = setInterval(draw, 20);
 
-// Game functions
 function generateTableOfEnvironment() {
   for (let y = -80; y < canvasHeight; y += 40) {
     if (y >= canvasHeight - 320) {
@@ -81,11 +80,13 @@ function generateRandomEnvironment(distanceFromTop) {
 
 // Reset the game
 function reset() {
+  user = localStorage.getItem("username");
   phase = "start";
   screenOffset = 0;
   obstacles = [];
   generateTableOfEnvironment();
   score = 0;
+  interval = setInterval(draw, 20);
 }
 
 function drawEnvironment() {

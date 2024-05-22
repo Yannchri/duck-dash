@@ -2,19 +2,21 @@ let highestScore = 0;
 let bestScores = [];
 
 export function getScores() {
-  if (localStorage.getItem("bestScores") !== null) {
-    bestScores = localStorage.getItem("bestScores").split(",");
+  let scores = localStorage.getItem("bestScores");
+  if (scores) {
+    bestScores = JSON.parse(scores);
   }
+  return bestScores;
 }
 
-export function setScores(score) {
+export function setScores(user, score) {
   getScores();
-  bestScores.push(score);
-  bestScores.sort((a, b) => b - a);
+  bestScores.push({ user: user, score: score });
+  bestScores.sort((a, b) => b.score - a.score);
+  bestScores = bestScores.slice(0, 10);
+  localStorage.setItem("bestScores", JSON.stringify(bestScores));
 
-  console.log("Top 10 : ", bestScores);
-
-  localStorage.setItem("bestScores", bestScores);
+  console.log(bestScores);
 }
 
 export function drawScore(ctx, duck) {

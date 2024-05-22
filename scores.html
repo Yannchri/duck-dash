@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Scores</title>
+  </head>
+  <body>
+    <div class="homePage">
+      <img src="./images/HomeScreen.jpeg" alt="HomeScreen" />
+      <h1 id="title">Scores</h1>
+      <div id="leaderboard" class="block">
+        <h2>Leaderboard</h2>
+        <ol>
+        </ol>
+      </div>
+    <button
+        id="back"
+        class="button"
+        onclick="window.location.href='index.html'"
+      >
+        Back
+      </button>iv>
+    <script>
+      const leaderboard = document.querySelector("#leaderboard ol");
+      const scores = JSON.parse(localStorage.getItem("bestScores"));
+      console.log(scores);
+      scores
+        .forEach((score, index) => {
+          const li = document.createElement("li");
+          li.textContent = `${score.user} - Score : ${score.score}`;
+          leaderboard.appendChild(li);
+        });
+    </script>
+  </body>
+</html>

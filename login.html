@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Login</title>
+  </head>
+  <body>
+      <div class="homePage">
+        <img src="./images/HomeScreen.jpeg" alt="HomeScreen"/>
+        <h1 id="title">Login</h1>
+        <div id="login" class="block">
+          <h2>Login</h2>
+          <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" />
+          </div>
+        </div>
+      </div>
+      <button
+      id="back"
+      class="button"
+      onclick="window.location.href='game.htmgame'"
+    >
+      Start
+    </button>
+    </div>
+    <script>
+      const username = document.querySelector("#username");
+      const start = document.querySelector("#back");
+      start.addEventListener("click", () => {
+        localStorage.setItem("username", username.value);
+      });
+    </script>
+  </body>
+</html>

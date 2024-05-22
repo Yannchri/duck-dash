@@ -95,7 +95,6 @@ export class Duck {
       }
     }
   }
-  
 
   duckOnWood(wood) {
     if (wood.direction === "left") {
@@ -106,12 +105,12 @@ export class Duck {
   }
 
   undoMove(obstacle) {
-    this._score -= 1;
     if (this.lastMove["ArrowLeft"]) {
       this.duckX = obstacle.posX + obstacle.width;
     } else if (this.lastMove["ArrowRight"]) {
       this.duckX = obstacle.posX - this.duckSize;
     } else if (this.lastMove["ArrowUp"]) {
+      this._score -= 1;
       this.duckY += this.jumpDistance;
     } else if (this.lastMove["ArrowDown"]) {
       this.duckY -= this.jumpDistance;

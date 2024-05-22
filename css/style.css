@@ -1,6 +1,8 @@
 body {
   padding: 0px;
   margin: 0px;
+  font-family: "Roboto", sans-serif;
+  color: white;
 }
 canvas {
   background: #eee;
@@ -23,17 +25,15 @@ canvas {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(90%);
+  filter: brightness(70%);
 }
 
 #title {
   position: absolute;
-  top: 30%;
+  top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 10dvh;
-  color: white;
-  font-family: "Roboto", sans-serif;
   margin-bottom: 20px;
 }
 
@@ -42,7 +42,7 @@ canvas {
   min-width: 25%;
   height: 50px;
   transform: translate(-50%, -50%);
-  background-color: #fa7d2f; 
+  background-color: #fa7d2f;
   border: #000, 2px, solid;
   color: #fff; /* Blanc */
   cursor: pointer;
@@ -55,17 +55,42 @@ canvas {
 }
 
 .button:hover {
-  background-color: #ffccaa; 
+  background-color: #ffccaa;
 }
 
 #start {
   top: 60%;
 }
 
-#leaderboard {
+#scores {
   top: 70%;
 }
 
 #audio {
   top: 80%;
+}
+
+#back {
+  bottom: 3%;
+}
+
+.block {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+  border: 2px solid #fff;
+  padding: 20px;
+  width: 50%;
+  font-size: 2.5vh;
+}
+
+#leaderboard {
+  top: 60%;
+  height: 50%;
+}
+
+#login {
+  top: 60%;
+  height: 25%;
 }
