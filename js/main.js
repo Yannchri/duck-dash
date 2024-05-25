@@ -2,6 +2,9 @@ import { Duck } from "./Duck.js";
 import { Grass, Road, River } from "./Environment.js";
 import { drawScore, setScores, storedScore } from "./score.js";
 
+// Récupère le chemin de l'image sélectionnée depuis le localStorage
+const selectedImagePath = localStorage.getItem('selectedImagePath');
+
 // Canvas creation
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
@@ -34,7 +37,7 @@ document.addEventListener("keyup", function (event) {
 // Duck configuration and creation
 let duckSize = 40;
 let duckImage = new Image();
-duckImage.src = "./images/Duck.png";
+duckImage.src = selectedImagePath || './images/Duck.png';
 const duck = new Duck(duckSize, duckImage, 40, 280);
 
 // Game loop

@@ -4,6 +4,7 @@ body {
   font-family: "Roboto", sans-serif;
   color: white;
 }
+
 canvas {
   background: #eee;
   display: block;
@@ -26,6 +27,7 @@ canvas {
   height: 100%;
   object-fit: cover;
   filter: brightness(70%);
+
 }
 
 #title {
