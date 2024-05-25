@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const dropZone = document.getElementById('dropZone');
     const gallery = document.getElementById('gallery');
-    const startButton = document.getElementById('startGame');
     let droppedImagePath = '';
 
     // Tableau des chemins d'accès aux images
