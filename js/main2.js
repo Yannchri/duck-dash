@@ -1,6 +1,6 @@
 import { Duck } from "./Duck.js";
 import { Grass, Road, River } from "./Environment.js";
-import { drawScore, setScores, storedScore, getHighestScore, resetHighscore } from "./score.js";
+import { drawScore, setScores, storedScore, getHighestScore } from "./score.js";
 
 // Canvas creation
 let canvas = document.getElementById("canvas");
@@ -21,7 +21,7 @@ let keys = {};
 let rnd = Math.random;
 let interval;
 let woodDirection = false; // false = left, true = right to keep track of the direction of the wood
-let isGameOverDisplayed = false;
+let isGameOverDisplayed = false; // Flag to track game over screen display
 
 // Configuration
 // Keyboard event listener
@@ -30,7 +30,9 @@ document.addEventListener("keydown", function (event) {
     if (isGameOverDisplayed) {
       reset();
       isGameOverDisplayed = false; // Hide the game over screen
-    } 
+    } else if (!duck.isDuckAlive) {
+        reset();
+    }
   } else {
     keys[event.key] = true;
   }
@@ -44,7 +46,7 @@ document.addEventListener("keyup", function (event) {
 let duckSize = 40;
 let duckImage = new Image();
 duckImage.src = "./images/Duck.png";
-let duck = new Duck(duckSize, duckImage, 40, 280);
+const duck = new Duck(duckSize, duckImage, 40, 280);
 
 // Game loop
 reset();
@@ -57,7 +59,8 @@ function draw() {
   drawEnvironment();
   duck.draw(ctx);
   drawScore(ctx, duck);
-
+  interval = setInterval(draw, 10);
+  
   if (phase === "end" && !isGameOverDisplayed) {
     setScores(user, duck._score);
     showEndGame();
@@ -94,19 +97,18 @@ function generateRandomEnvironment(distanceFromTop) {
 
 // Reset the game
 function reset() {
-  clearInterval(interval);
-  clearEndGameOverlay();
-  user = localStorage.getItem("username");
+  //clearEndGameOverlay();
+  user = localStorage.getItem("username") || "nobody"; // Default to "testUser" if no username is stored
   phase = "start";
-  screenOffset = 0;
-  obstacles = [];
-  environments = [];
+  isDuckAlive = true;
+  //screenOffset = 0;
+  //obstacles = [];
+  //environments = [];
   generateTableOfEnvironment();
-  resetHighscore();
-  clearFullCanvas(); // Clear the entire canvas including the end game overlay
-  interval = setInterval(draw, 20);
-  duck = new Duck(duckSize, duckImage, 40, 280);
-  keys = {};
+  //keys = {};
+  //woodDirection = false; 
+  clearFullCanvas();
+  
 }
 
 function drawEnvironment() {
@@ -132,31 +134,25 @@ function moveEnvironment(speed) {
 function checkDuckState() {
   if (duck.isDuckAlive === false) {
     phase = "end";
-    isGameOverDisplayed = true; // Display the game over screen
+    isGameOverDisplayed = true;
   }
 }
 
 function showEndGame() {
-  if (phase === 'end'){
-    clearInterval(interval);
-    interval = setInterval(draw,100000000);
-    ctx.fillStyle = 'rgba(0,0,0,0.5)'
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-    ctx.textAlign = "center";
-    ctx.font = "30px Arial";
-    ctx.fillStyle = "white";
-    ctx.fillText("Game Over", canvasWidth/2, canvasHeight/2 - 50);
-    ctx.fillText("Your score is " + getHighestScore(), canvasWidth/2, canvasHeight/2);
-    ctx.fillText('To play again, press "Enter"', canvasWidth/2, canvasHeight/2 + 50);
-  }
-  
+  ctx.fillStyle = 'rgba(0,0,0,0.5)';
+  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+  ctx.textAlign = "center";
+  ctx.font = "30px Arial";
+  ctx.fillStyle = "white";
+  ctx.fillText("Game Over", canvasWidth / 2, canvasHeight / 2 - 50);
+  ctx.fillText("Your score is " + getHighestScore(), canvasWidth / 2, canvasHeight / 2);
+  ctx.fillText('To play again, press "Enter"', canvasWidth / 2, canvasHeight / 2 + 50);
 }
 
 function clearFullCanvas() {
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 }
 
-
-function clearEndGameOverlay() {
-  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-}
+// function clearEndGameOverlay() {
+//   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+// }

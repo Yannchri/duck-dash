@@ -2,11 +2,11 @@ let highestScore = 0;
 let bestScores = [];
 
 export function getScores() {
-  let scores = localStorage.getItem("bestScores");
-  if (scores) {
-    bestScores = JSON.parse(scores);
-  }
-  return bestScores;
+//   let scores = localStorage.getItem("bestScores");
+//   if (scores) {
+//     bestScores = JSON.parse(scores);
+//   }
+   return bestScores;
 }
 
 export function getHighestScore() {
@@ -30,7 +30,11 @@ export function drawScore(ctx, duck) {
 
   ctx.font = "20px Arial bold";
   ctx.fillStyle = "white";
-  ctx.fillText("Score: " + highestScore, 10, 30);
+  ctx.fillText("Score: " + highestScore, 30, 310);
+}
+
+export function resetHighscore(){
+  highestScore = 0;
 }
 
 export function storedScore(highestScore) {}

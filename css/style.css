@@ -43,7 +43,7 @@ canvas {
   height: 50px;
   transform: translate(-50%, -50%);
   background-color: #fa7d2f;
-  border: #000, 2px, solid;
+  border: 2px, solid #0000;
   color: #fff; /* Blanc */
   cursor: pointer;
   font-size: 3dvh;
