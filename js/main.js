@@ -47,7 +47,7 @@ document.addEventListener("keyup", function (event) {
 let duckSize = 40;
 let duckImage = new Image();
 duckImage.src = selectedImagePath || './images/Duck.png';
-const duck = new Duck(duckSize, duckImage, 40, 280);
+let duck = new Duck(duckSize, duckImage, 40, 280);
 
 // Game loop
 reset();
@@ -59,7 +59,7 @@ function draw() {
   moveEnvironment(1);
   drawEnvironment();
   duck.draw(ctx);
-  drawScore(ctx, duck);
+  drawScore(ctx, duck, canvasHeight, canvasWidth);
 
   if (phase === "end" && !isGameOverDisplayed) {
     setScores(user, duck._score);
@@ -98,7 +98,7 @@ function generateRandomEnvironment(distanceFromTop) {
 // Reset the game
 function reset() {
   clearInterval(interval);
-  clearEndGameOverlay();
+  //clearEndGameOverlay();
   user = localStorage.getItem("username");
   phase = "start";
   screenOffset = 0;
@@ -106,9 +106,9 @@ function reset() {
   environments = [];
   generateTableOfEnvironment();
   resetHighscore();
-  clearFullCanvas(); // Clear the entire canvas including the end game overlay
+  //clearFullCanvas();
   interval = setInterval(draw, 20);
-  duck = new Duck(duckSize, duckImage, 40, 280);
+  duck = new Duck(duckSize, duckImage, 40, 280); // Moved inside reset function to reinitialize duck
   keys = {};
 }
 
@@ -134,15 +134,15 @@ function moveEnvironment(speed) {
 
 function checkDuckState() {
   if (duck.isDuckAlive === false) {
-    phase = "end";
-    isGameOverDisplayed = true; // Display the game over screen
+    phase = "end"; // Display the game over screen
+    isGameOverDisplayed = true;
   }
 }
 
 function showEndGame() {
   if (phase === 'end'){
     clearInterval(interval);
-    interval = setInterval(draw,100000000);
+    //interval = setInterval(draw,100000000);
     ctx.fillStyle = 'rgba(0,0,0,0.5)'
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     ctx.textAlign = "center";
@@ -152,13 +152,11 @@ function showEndGame() {
     ctx.fillText("Your score is " + getHighestScore(), canvasWidth/2, canvasHeight/2);
     ctx.fillText('To play again, press "Enter"', canvasWidth/2, canvasHeight/2 + 50);
   }
-  
 }
 
 function clearFullCanvas() {
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 }
-
 
 function clearEndGameOverlay() {
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);

@@ -23,14 +23,14 @@ export function setScores(user, score) {
   console.log(bestScores);
 }
 
-export function drawScore(ctx, duck) {
+export function drawScore(ctx, duck, canvasHeight, canvasWidth) {
   let currentScore = duck._score;
 
   if (highestScore < duck._score) highestScore = currentScore;
 
   ctx.font = "20px Arial bold";
   ctx.fillStyle = "white";
-  ctx.fillText("Score: " + highestScore, 30, 310);
+  ctx.fillText("Score: " + highestScore, canvasHeight/10, canvasWidth/10);
 }
 
 export function resetHighscore(){
