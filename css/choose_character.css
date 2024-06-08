@@ -1,0 +1,59 @@
+body {
+
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index:0;
+}
+/* Pseudo élément pour éviter de modifier l'HTML*/
+body::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('/duck-dash/images/HomeScreen.jpeg'); /* Chemin vers l'image de fond */
+    background-size: cover; /* Redimensionne l'image pour couvrir toute la page */
+    background-position: center; /* Centre l'image de fond */
+    background-repeat: no-repeat; /* Empêche la répétition de l'image de fond */
+    filter: brightness(70%); /* Applique le filtre uniquement à l'image de fond */
+    z-index: -1; /* Place le pseudo-élément derrière le contenu */
+}
+
+
+
+h1 {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10dvh;
+    color: white;
+    padding-bottom: 15vh;
+}
+
+.drop-zone {
+    width: 200px; /* Largeur de la zone de dépôt */
+    height: 200px; /* Hauteur de la zone de dépôt */
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.5); /* Couleur de fond semi-transparente */
+    border: 2px dashed #ffffff; /* Bordure en pointillés blanche */
+    margin-top: 20vh; /* Marge supérieure pour séparer du titre */
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; /* Espacement entre les images */
+    margin-top: 4vh; /* Marge supérieure pour séparer de la zone de dépôt */
+    margin-bottom: 4vh;
+}
+
+.gallery img {
+    width: 100px; /* Largeur des images dans la galerie */
+    height: auto; /* Hauteur automatique pour conserver les proportions */
+    cursor: pointer; /* Curseur de souris pointeur pour les images */
+}
