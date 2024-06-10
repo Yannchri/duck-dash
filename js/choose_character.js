@@ -38,8 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         const src = event.dataTransfer.getData('text/plain');
         dropZone.style.backgroundImage = `url(${src})`;
+        dropZone.style.border = '2px solid black'; 
         dropZone.style.backgroundSize = 'cover';
         dropZone.style.backgroundPosition = 'center';
+
+        // Stocker le chemin de l'image déposée
         droppedImagePath = src;
     });
 

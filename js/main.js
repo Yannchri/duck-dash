@@ -34,7 +34,10 @@ document.addEventListener("keydown", function (event) {
       reset();
       isGameOverDisplayed = false; // Hide the game over screen
     } 
-  } else {
+  } else if (event.key === "h"){
+    window.location.href = 'index.html';
+}
+  else {
     keys[event.key] = true;
   }
 });
@@ -151,6 +154,7 @@ function showEndGame() {
     ctx.fillText("Game Over", canvasWidth/2, canvasHeight/2 - 50);
     ctx.fillText("Your score is " + getHighestScore(), canvasWidth/2, canvasHeight/2);
     ctx.fillText('To play again, press "Enter"', canvasWidth/2, canvasHeight/2 + 50);
+    ctx.fillText('To go home, press "H"', canvasWidth/2, canvasHeight/2 + 100);
   }
 }
 

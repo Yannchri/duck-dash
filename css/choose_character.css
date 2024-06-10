@@ -30,16 +30,16 @@ h1 {
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 10dvh;
-    color: white;
-    padding-bottom: 15vh;
+    color: black;
+    padding-bottom: 5vh;
 }
 
 .drop-zone {
     width: 200px; /* Largeur de la zone de dépôt */
     height: 200px; /* Hauteur de la zone de dépôt */
     justify-content: center;
-    background-color: rgba(255, 255, 255, 0.5); /* Couleur de fond semi-transparente */
-    border: 2px dashed #ffffff; /* Bordure en pointillés blanche */
+    background-color: rgba(59, 59, 59, 0.562); /* Couleur de fond semi-transparente */
+    border: 2px dashed black; /* Bordure en pointillés blanche */
     margin-top: 20vh; /* Marge supérieure pour séparer du titre */
 }
 
