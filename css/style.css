@@ -1,9 +1,10 @@
 body {
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
   font-family: "Roboto", sans-serif;
   color: white;
 }
+
 canvas {
   background: #eee;
   display: block;
@@ -14,18 +15,30 @@ canvas {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.homePage {
+
+.homePage, .audioPage {
   position: relative;
   overflow: hidden;
   height: 100vh;
   width: 100%;
 }
 
-.homePage img {
+.homePage img, .audioPage img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   filter: brightness(70%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+#login{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #title {
@@ -43,7 +56,7 @@ canvas {
   height: 50px;
   transform: translate(-50%, -50%);
   background-color: #fa7d2f;
-  border: #000, 2px, solid;
+  border: 2px solid #0000;
   color: #fff; /* Blanc */
   cursor: pointer;
   font-size: 3dvh;
@@ -74,23 +87,53 @@ canvas {
   bottom: 3%;
 }
 
-.block {
+#playMusic {
+  top: 50%;
+}
+
+#pauseMusic {
+  top: 60%;
+}
+
+#volumeControlText {
+  position: absolute;
+  top: 68%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+
+#volumeControl{
+  top : 70%;
+}
+
+.controlGroup {
   position: absolute;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: transparent;
-  border: 2px solid #fff;
   padding: 20px;
-  width: 50%;
+  width: 80%;
   font-size: 2.5vh;
+  top: 50%;
+  text-align: center;
 }
 
-#leaderboard {
-  top: 60%;
-  height: 50%;
+#indications{
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-#login {
-  top: 60%;
-  height: 25%;
+#volumeControl {
+  width: 80%;
+  margin: 20px auto;
+  display: block;
+  position: relative;
+}
+
+h1, h2 {
+  margin: 0;
 }

@@ -1,6 +1,9 @@
 import { Duck } from "./Duck.js";
 import { Grass, Road, River } from "./Environment.js";
-import { drawScore, setScores, storedScore } from "./score.js";
+import { drawScore, setScores, storedScore, getHighestScore, resetHighscore } from "./score.js";
+
+// Récupère le chemin de l'image sélectionnée depuis le localStorage
+const selectedImagePath = localStorage.getItem('selectedImagePath');
 
 // Canvas creation
 let canvas = document.getElementById("canvas");
@@ -21,12 +24,24 @@ let keys = {};
 let rnd = Math.random;
 let interval;
 let woodDirection = false; // false = left, true = right to keep track of the direction of the wood
+let isGameOverDisplayed = false;
 
 // Configuration
 // Keyboard event listener
 document.addEventListener("keydown", function (event) {
-  keys[event.key] = true;
+  if (event.key === "Enter") {
+    if (isGameOverDisplayed) {
+      reset();
+      isGameOverDisplayed = false; // Hide the game over screen
+    } 
+  } else if (event.key === "h"){
+    window.location.href = 'index.html';
+}
+  else {
+    keys[event.key] = true;
+  }
 });
+
 document.addEventListener("keyup", function (event) {
   keys[event.key] = false;
 });
@@ -34,24 +49,29 @@ document.addEventListener("keyup", function (event) {
 // Duck configuration and creation
 let duckSize = 40;
 let duckImage = new Image();
-duckImage.src = "./images/Duck.png";
-const duck = new Duck(duckSize, duckImage, 40, 280);
+duckImage.src = selectedImagePath || './images/Duck.png';
+let duck = new Duck(duckSize, duckImage, 40, 280);
 
 // Game loop
 reset();
 function draw() {
+  clearFullCanvas();
   checkDuckState();
   duck.duckMove(keys);
   duck.checkCollision(environments);
-  if (phase === "start") {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    moveEnvironment(1);
-    drawEnvironment();
-    duck.draw(ctx);
-    drawScore(ctx, duck);
-  } else {
+  moveEnvironment(1);
+  drawEnvironment();
+  duck.draw(ctx);
+  drawScore(ctx, duck, canvasHeight, canvasWidth);
+
+  if (phase === "end" && !isGameOverDisplayed) {
     setScores(user, duck._score);
+    showEndGame();
     clearInterval(interval);
+  }
+
+  if (isGameOverDisplayed) {
+    showEndGame();
   }
 }
 
@@ -80,13 +100,19 @@ function generateRandomEnvironment(distanceFromTop) {
 
 // Reset the game
 function reset() {
+  clearInterval(interval);
+  //clearEndGameOverlay();
   user = localStorage.getItem("username");
   phase = "start";
   screenOffset = 0;
   obstacles = [];
+  environments = [];
   generateTableOfEnvironment();
-  score = 0;
+  resetHighscore();
+  //clearFullCanvas();
   interval = setInterval(draw, 20);
+  duck = new Duck(duckSize, duckImage, 40, 280); // Moved inside reset function to reinitialize duck
+  keys = {};
 }
 
 function drawEnvironment() {
@@ -111,6 +137,31 @@ function moveEnvironment(speed) {
 
 function checkDuckState() {
   if (duck.isDuckAlive === false) {
-    phase = "end";
+    phase = "end"; // Display the game over screen
+    isGameOverDisplayed = true;
   }
+}
+
+function showEndGame() {
+  if (phase === 'end'){
+    clearInterval(interval);
+    //interval = setInterval(draw,100000000);
+    ctx.fillStyle = 'rgba(0,0,0,0.5)'
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.textAlign = "center";
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText("Game Over", canvasWidth/2, canvasHeight/2 - 50);
+    ctx.fillText("Your score is " + getHighestScore(), canvasWidth/2, canvasHeight/2);
+    ctx.fillText('To play again, press "Enter"', canvasWidth/2, canvasHeight/2 + 50);
+    ctx.fillText('To go home, press "H"', canvasWidth/2, canvasHeight/2 + 100);
+  }
+}
+
+function clearFullCanvas() {
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+}
+
+function clearEndGameOverlay() {
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 }

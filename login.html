@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/style.css" />
+    <script src="./js/sound.js" defer></script>
     <title>Login</title>
   </head>
   <body>
@@ -12,6 +13,7 @@
         <h1 id="title">Login</h1>
         <div id="login" class="block">
           <h2>Login</h2>
+          <p id="localisation"></p>
           <div>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" />
@@ -21,7 +23,7 @@
       <button
       id="back"
       class="button"
-      onclick="window.location.href='game.html'"
+      onclick="window.location.href='choose_character.html'"
     >
       Start
     </button>
@@ -32,6 +34,47 @@
       start.addEventListener("click", () => {
         localStorage.setItem("username", username.value);
       });
+
+// Function to get the user's current location
+function getLocation() {
+    // Check if geolocation is supported by the browser
+    if (navigator.geolocation) {
+        // If supported, get the current position
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        // If not supported, display an alert
+        alert("Geolocation is not supported by this browser.");
+    }
+}
+
+// Function to display the user's position
+function showPosition(position) {
+    // Get the latitude and longitude from the position object
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    
+    // Get the location element from the HTML
+    const locationElement = document.getElementById("localisation");
+    
+    // Construct the URL for reverse geocoding using latitude and longitude
+    const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=fr`;
+    
+    // Fetch the location data using the constructed URL
+    fetch(url)
+        .then(response => response.json()) // Parse the JSON response
+        .then(data => {
+            // Extract the city from the response data
+            const city = data.city;
+            // Display a message with the user's city
+            locationElement.innerHTML = `Bonjour ! Est-ce que votre canard est prêt à traverser la ville de ${city} ?`;
+        })
+        .catch(error => console.error("Error fetching location data:", error)); // Handle any errors that occur during fetching
+}
+
+    // Call the getLocation function to initiate the location retrieval process
+    getLocation();
+
     </script>
+    <script src="./js/sound.js"></script>
   </body>
 </html>
