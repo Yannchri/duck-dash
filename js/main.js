@@ -1,9 +1,15 @@
 import { Duck } from "./Duck.js";
 import { Grass, Road, River } from "./Environment.js";
-import { drawScore, setScores, storedScore, getHighestScore, resetHighscore } from "./score.js";
+import {
+  drawScore,
+  setScores,
+  storedScore,
+  getHighestScore,
+  resetHighscore,
+} from "./score.js";
 
 // Récupère le chemin de l'image sélectionnée depuis le localStorage
-const selectedImagePath = localStorage.getItem('selectedImagePath');
+const selectedImagePath = localStorage.getItem("selectedImagePath");
 
 // Canvas creation
 let canvas = document.getElementById("canvas");
@@ -33,11 +39,10 @@ document.addEventListener("keydown", function (event) {
     if (isGameOverDisplayed) {
       reset();
       isGameOverDisplayed = false; // Hide the game over screen
-    } 
-  } else if (event.key === "h"){
-    window.location.href = 'index.html';
-}
-  else {
+    }
+  } else if (event.key === "h") {
+    window.location.href = "index.html";
+  } else {
     keys[event.key] = true;
   }
 });
@@ -49,7 +54,7 @@ document.addEventListener("keyup", function (event) {
 // Duck configuration and creation
 let duckSize = 40;
 let duckImage = new Image();
-duckImage.src = selectedImagePath || './images/Duck.png';
+duckImage.src = selectedImagePath || "./images/Duck.png";
 let duck = new Duck(duckSize, duckImage, 40, 280);
 
 // Game loop
@@ -71,6 +76,7 @@ function draw() {
   }
 
   if (isGameOverDisplayed) {
+    setScores(user, duck._score);
     showEndGame();
   }
 }
@@ -143,25 +149,33 @@ function checkDuckState() {
 }
 
 function showEndGame() {
-  if (phase === 'end'){
+  if (phase === "end") {
     clearInterval(interval);
     //interval = setInterval(draw,100000000);
-    ctx.fillStyle = 'rgba(0,0,0,0.5)'
+    ctx.fillStyle = "rgba(0,0,0,0.5)";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     ctx.textAlign = "center";
     ctx.font = "30px Arial";
     ctx.fillStyle = "white";
-    ctx.fillText("Game Over", canvasWidth/2, canvasHeight/2 - 50);
-    ctx.fillText("Your score is " + getHighestScore(), canvasWidth/2, canvasHeight/2);
-    ctx.fillText('To play again, press "Enter"', canvasWidth/2, canvasHeight/2 + 50);
-    ctx.fillText('To go home, press "H"', canvasWidth/2, canvasHeight/2 + 100);
+    ctx.fillText("Game Over", canvasWidth / 2, canvasHeight / 2 - 50);
+    ctx.fillText(
+      "Your score is " + getHighestScore(),
+      canvasWidth / 2,
+      canvasHeight / 2
+    );
+    ctx.fillText(
+      'To play again, press "Enter"',
+      canvasWidth / 2,
+      canvasHeight / 2 + 50
+    );
+    ctx.fillText(
+      'To go home, press "H"',
+      canvasWidth / 2,
+      canvasHeight / 2 + 100
+    );
   }
 }
 
 function clearFullCanvas() {
-  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-}
-
-function clearEndGameOverlay() {
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 }

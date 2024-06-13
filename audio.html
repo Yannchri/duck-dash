@@ -1,24 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
     <title>Audio Settings</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="audioPage">
-        <img src="./images/HomeScreen.jpeg" alt="HomeScreen"/>
-        <h1 id="title">Audio Settings</h1>
-        <p id="indications">You can press "M" anytime to start/pause the music</p>
+      <img src="./images/HomeScreen.jpeg" alt="HomeScreen" />
+      <h1 id="title">Audio Settings</h1>
+      <p id="indications">You can press "M" anytime to start/pause the music</p>
 
-            <button id="playMusic" class="button">Play</button>
-            <button id="pauseMusic" class="button">Pause</button>
+      <button id="playMusic" class="button">Play</button>
+      <button id="pauseMusic" class="button">Pause</button>
 
-            <h2 id="volumeControlText">Volume Control</h2>
-            <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="1">
-        <button id="back" class="button" onclick="window.location.href='index.html'">Back to Home</button>
+      <h2 id="volumeControlText">Volume Control</h2>
+      <input
+        type="range"
+        id="volumeControl"
+        min="0"
+        max="1"
+        step="0.1"
+        value="1"
+      />
+      <button
+        id="back"
+        class="button"
+        onclick="window.location.href='index.html'"
+      >
+        Back to Home
+      </button>
     </div>
     <script src="./js/sound.js"></script>
-</body>
+  </body>
 </html>
